@@ -47,4 +47,13 @@ final class BusinessController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/business/delete/{id}', name: 'app_business_delete', methods: ['GET'])]
+    public function delete(Request $request, Business $business, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($business);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_business');
+    }
 }

@@ -17,6 +17,10 @@
         <p>{{ business.phoneNumber }}</p>
         <p>{{ business.businessType.name }}</p>
 
+
+        <a href="{{ path('app_business_delete', {
+            id: business.id
+        }) }}">Delete</a>
         <a href="{{ path('app_business') }}">Back</a>
     </div>
 {% endblock %}

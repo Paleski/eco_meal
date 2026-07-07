@@ -12,6 +12,9 @@
         <p>{{ businessType.id }}</p>
         <p>{{ businessType.name }}</p>
 
+        <a href="{{ path('app_businessType_delete', {
+            id: businessType.id
+        }) }}">Delete</a>
         <a href="{{ path('app_businessType') }}">Back</a>
     </div>
 {% endblock %}

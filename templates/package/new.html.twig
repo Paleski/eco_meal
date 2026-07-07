@@ -10,13 +10,13 @@
 
     <div class="example-wrapper">
         {{ form_start(form) }}
-            {{ form_row(form.name) }}
-            {{ form_row(form.city) }}
-            {{ form_row(form.street) }}
-            {{ form_row(form.houseNumber) }}
-            {{ form_row(form.phoneNumber) }}
-            {{ form_row(form.businessType) }}
-            {{ form_row(form.submit) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.price) }}
+        {{ form_row(form.createdAt) }}
+        {{ form_row(form.category) }}
+        {{ form_row(form.business) }}
+        {{ form_row(form.submit) }}
         {{ form_end(form) }}
     </div>
 {% endblock %}

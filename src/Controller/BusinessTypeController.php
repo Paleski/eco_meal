@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\BusinessType;
 use App\Form\BusinessTypeFormType;
-use App\Repository\BusinessRepository;
 use App\Repository\BusinessTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,5 +44,14 @@ final class BusinessTypeController extends AbstractController
         return $this->render('businessType/new.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route('/business-type/delete/{id}', name: 'app_businessType_delete', methods: ['GET'])]
+    public function delete(Request $request, BusinessType $businessType, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($businessType);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_businessType');
     }
 }
