@@ -8,15 +8,21 @@
         .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
     </style>
 
-    <div class="example-wrapper">
-        {{ form_start(form) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.description) }}
-        {{ form_row(form.price) }}
-        {{ form_row(form.createdAt) }}
-        {{ form_row(form.category) }}
-        {{ form_row(form.business) }}
-        {{ form_row(form.submit) }}
-        {{ form_end(form) }}
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h3 class="mb-0">Create new package for {{ business.name }}</h3>
+        </div>
+        <div class="card-body">
+            {{ form_start(form) }}
+            {{ form_row(form.name) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.price) }}
+            {{ form_row(form.category) }}
+            {{ form_row(form.submit) }}
+            {{ form_end(form) }}
+        </div>
+        <div class="card-footer">
+            <a href="{{ path('app_business_view', { id: business.id }) }}" class="btn btn-secondary">Cancel</a>
+        </div>
     </div>
 {% endblock %}

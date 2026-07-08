@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ConsumerController!{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    <div class="example-wrapper">
+        <p>{{ consumer.id }}</p>
+        <p>{{ consumer.firstName }}</p>
+        <p>{{ consumer.lastName }}</p>
+        <p>{{ consumer.phoneNumber }}</p>
+
+        <a href="{{ path('app_consumer_edit', { id: consumer.id }) }}">Edit</a>
+        <a href="{{ path('app_consumer_delete', { id: consumer.id }) }}">Delete</a>
+        <a href="{{ path('app_consumer') }}">Back</a>
+    </div>
+{% endblock %}
