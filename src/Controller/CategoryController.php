@@ -16,6 +16,10 @@ final class CategoryController extends AbstractController
     #[Route('/category', name: 'app_category')]
     public function index(CategoryRepository $categoryRepository): Response
     {
+        if(! $this->isGranted('ROLE_ADMIN'))
+        {
+            return $this->redirectToRoute('app_denied');
+        }
         $categories = $categoryRepository->findAll();
 
         return $this->render('category/index.html.twig', [
@@ -26,6 +30,10 @@ final class CategoryController extends AbstractController
     #[Route('/category/{id}', name: 'app_category_view')]
     public function view(Category $category): Response
     {
+        if(! $this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_BUSINESS'))
+        {
+            return $this->redirectToRoute('app_denied');
+        }
         return $this->render('category/view.html.twig', [
             'category' => $category,
         ]);
@@ -34,6 +42,10 @@ final class CategoryController extends AbstractController
     #[Route('/new/category', name: 'app_category_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if(! $this->isGranted('ROLE_ADMIN'))
+        {
+            return $this->redirectToRoute('app_denied');
+        }
         $category = new Category();
         $form = $this->createForm(CategoryFormType::class, $category);
         $form->handleRequest($request);
@@ -53,6 +65,10 @@ final class CategoryController extends AbstractController
     #[Route('/category/edit/{id}', name: 'app_category_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Category $category, EntityManagerInterface $entityManager): Response
     {
+        if(! $this->isGranted('ROLE_ADMIN'))
+        {
+            return $this->redirectToRoute('app_denied');
+        }
         $form = $this->createForm(CategoryFormType::class, $category);
         $form->handleRequest($request);
 
@@ -72,6 +88,10 @@ final class CategoryController extends AbstractController
     #[Route('/category/delete/{id}', name: 'app_category_delete', methods: ['GET'])]
     public function delete(Request $request, Category $category, EntityManagerInterface $entityManager): Response
     {
+        if(! $this->isGranted('ROLE_ADMIN'))
+        {
+            return $this->redirectToRoute('app_denied');
+        }
         $entityManager->remove($category);
         $entityManager->flush();
 

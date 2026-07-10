@@ -13,7 +13,9 @@
         {{ form_row(form.firstName) }}
         {{ form_row(form.lastName) }}
         {{ form_row(form.phoneNumber) }}
-        {{ form_row(form.submit) }}
+{#        {{ form_row(form.submit) }}#}
+        <button type="submit" class="btn btn-primary">Add Consumer</button> {# Astfel nu se mosteneste butonul si la register #}
+
         {{ form_end(form) }}
     </div>
 {% endblock %}

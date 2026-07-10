@@ -16,6 +16,10 @@ final class OrderController extends AbstractController
     #[Route('/order', name: 'app_order')]
     public function index(OrderRepository $orderRepository): Response
     {
+    if(! $this->isGranted('ROLE_ADMIN'))
+    {
+        return $this->redirectToRoute('app_denied');
+    }
         $orders = $orderRepository->findAll();
 
         return $this->render('order/index.html.twig', [
@@ -26,6 +30,10 @@ final class OrderController extends AbstractController
     #[Route('/order/{id}', name: 'app_order_view')]
     public function view(Order $order): Response
     {
+            if(! $this->isGranted('ROLE_ADMIN'))
+            {
+                return $this->redirectToRoute('app_denied');
+            }
         return $this->render('order/view.html.twig', [
             'order' => $order,
         ]);
@@ -34,6 +42,10 @@ final class OrderController extends AbstractController
     #[Route('/new/order', name: 'app_order_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if(! $this->isGranted('ROLE_ADMIN'))
+        {
+            return $this->redirectToRoute('app_denied');
+        }
         $order = new Order();
         $form = $this->createForm(OrderFormType::class, $order);
         $form->handleRequest($request);
@@ -53,6 +65,10 @@ final class OrderController extends AbstractController
     #[Route('/order/edit/{id}', name: 'app_order_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Order $order, EntityManagerInterface $entityManager): Response
     {
+        if(! $this->isGranted('ROLE_ADMIN'))
+        {
+            return $this->redirectToRoute('app_denied');
+        }
         $form = $this->createForm(OrderFormType::class, $order);
         $form->handleRequest($request);
 

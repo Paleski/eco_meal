@@ -24,6 +24,13 @@ final class PackageController extends AbstractController
         ]);
     }
 
+    #[Route('/package/{id}', name: 'app_package_view')]
+    public function view(Package $package): Response
+    {
+        return $this->render('package/view.html.twig', [
+            'package' => $package,
+        ]);
+    }
     #[Route('/new/business/{id}/package', name: 'app_package_new_for_business', methods: ['GET', 'POST'])]
     public function newPackageForBusiness(Request $request, Business $business, EntityManagerInterface $entityManager): Response
     {
@@ -64,5 +71,14 @@ final class PackageController extends AbstractController
             'form' => $form,
             'package' => $package,
         ]);
+    }
+
+    #[Route('/order/delete/{id}', name: 'app_package_delete', methods: ['GET'])]
+    public function delete(Request $request, Package $package, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($package);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_package');
     }
 }
