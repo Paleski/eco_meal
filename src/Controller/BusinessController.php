@@ -39,7 +39,8 @@ final class BusinessController extends AbstractController
     public function view(Business $business, Security $security): Response
     {
         $user = $security->getUser();
-        $id = $user->getBusiness()->getId();
+        $id = $user->getBusiness()?->getId();
+
 
         if(! ($this->isGranted('ROLE_ADMIN') || ($user && $user->getBusiness() && $user->getBusiness()->getId() == $id)))
         {

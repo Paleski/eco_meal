@@ -28,8 +28,9 @@ class OrderFormType extends AbstractType
                 'class' => Consumer::class,
                 'choice_label' => 'lastName'
             ])
-            ->add('submit', SubmitType::class);
-    }
+            ->add('submit', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-primary mt-3']
+            ]);    }
 
     public function configureOptions(OptionsResolver $resolver): void
     {

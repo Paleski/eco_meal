@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Dto\PackageSearchFilter;
 use App\Entity\Package;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,6 +15,31 @@ class PackageRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Package::class);
+    }
+
+    public function findByFilter(PackageSearchFilter $filter): array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->leftJoin('p.category', 'c')
+            ->addSelect('c');
+
+        if($filter->name){
+            $qb->andWhere('p.name LIKE :name')
+                ->setParameter('name', '%'.$filter->name.'%');
+        }
+        if($filter->minprice){
+            $qb->andWhere('p.price > :minprice')
+                ->setParameter('minprice', $filter->minprice);
+        }
+        if($filter->maxprice){
+            $qb->andWhere('p.price < :maxprice')
+                ->setParameter('maxprice', $filter->maxprice);
+        }
+        if($filter->category){
+            $qb->andWhere('p.category = :category')
+                ->setParameter('category', $filter->category);
+        }
+        return $qb->getQuery()->getResult();
     }
 
 //    /**

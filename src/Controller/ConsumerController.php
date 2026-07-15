@@ -42,9 +42,9 @@ final class ConsumerController extends AbstractController
     {
         $user = $security->getUser();
 
-        if ($user && $user->getConsumer() && $user->getConsumer()->getId() == $id) {
+        if (($this->isGranted('ROLE_ADMIN')) || ($user && $user->getConsumer() && $user->getConsumer()->getId() == $id)) {
             return $this->render('consumer/view.html.twig', [
-                'consumer' => $user->getConsumer(),
+                'consumer' => $consumerRepository->find($id),
             ]);
         }
         return $this->redirectToRoute('app_denied');
@@ -73,7 +73,7 @@ final class ConsumerController extends AbstractController
     public function edit(Request $request, Consumer $consumer,Security $security, EntityManagerInterface $entityManager): Response
     {
         $user = $security->getUser();
-        $id = $user->getConsumer()->getId();
+        $id = $user->getConsumer()?->getId();
 
         if ($user && $user->getConsumer() && $user->getConsumer()->getId() == $id) {
             $form = $this->createForm(ConsumerFormType::class, $consumer);

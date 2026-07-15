@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ConsumerController!{% endblock %}
+{% block title %}Hello BusinessController!{% endblock %}
 
 {% block body %}
     <style>
@@ -10,10 +10,13 @@
 
     <div class="example-wrapper">
         {{ form_start(form) }}
-        {{ form_row(form.firstName) }}
-        {{ form_row(form.lastName) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.city) }}
+        {{ form_row(form.street) }}
+        {{ form_row(form.houseNumber) }}
         {{ form_row(form.phoneNumber) }}
-        <button type="submit" class="btn btn-primary">Confirm Changes</button> {# Astfel nu se mosteneste butonul si la register #}
+        {{ form_row(form.businessType) }}
+        {{ form_row(form.submit) }}
         {{ form_end(form) }}
     </div>
 {% endblock %}

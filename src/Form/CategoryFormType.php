@@ -15,7 +15,9 @@ class CategoryFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('submit', SubmitType::class);
+            ->add('submit', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-primary mt-3']
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
