@@ -19,13 +19,12 @@ final class PackageController extends AbstractController
     #[Route('/package', name: 'app_package')]
     public function index(Request $request,PackageRepository $packageRepository): Response
     {
-        $packages = $packageRepository->findAll();
-
         $filter = new PackageSearchFilter();
         $form = $this->createForm(PackageFiltersType::class, $filter);
         $form->handleRequest($request);
+
         return $this->render('package/index.html.twig', [
-            'packages' => $packages,
+            'packages' => $packageRepository->findByFilter($filter),
             'package_filter_form' => $form->createView(),
         ]);
     }

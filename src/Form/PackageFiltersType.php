@@ -34,7 +34,7 @@ class PackageFiltersType extends AbstractType
             ->add('category', EntityType::class, [
                 'required' => false,
                 'class' => Category::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
             ->add('submit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary mt-3']

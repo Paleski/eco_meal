@@ -21,19 +21,19 @@ class PackageRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('p')
             ->leftJoin('p.category', 'c')
-            ->addSelect('c');
+            ->addSelect('p');
 
         if($filter->name){
             $qb->andWhere('p.name LIKE :name')
                 ->setParameter('name', '%'.$filter->name.'%');
         }
-        if($filter->minprice){
+        if($filter->minPrice){
             $qb->andWhere('p.price > :minprice')
-                ->setParameter('minprice', $filter->minprice);
+                ->setParameter('minprice', $filter->minPrice);
         }
-        if($filter->maxprice){
+        if($filter->maxPrice){
             $qb->andWhere('p.price < :maxprice')
-                ->setParameter('maxprice', $filter->maxprice);
+                ->setParameter('maxprice', $filter->maxPrice);
         }
         if($filter->category){
             $qb->andWhere('p.category = :category')
