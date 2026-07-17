@@ -15,10 +15,19 @@
         <p>{{ package.price }}</p>
         <p>{{ package.createdAt|date('d/m') }}</p>
 
-
+        {% if isAvailable %}
+            <form action="{{ path('app_package_order', {id: package.id}) }}" method="POST" onsubmit="return confirm('Are you sure you want to order this package?');" class="m-0">
+                <button type="submit" class="btn btn-success rounded-pill fw-bold px-4 shadow-sm">
+                    Place Order
+                </button>
+            </form>
+        {% else %}
+            <button class="btn btn-secondary rounded-pill fw-bold px-4 shadow-sm" disabled>
+                This package has already been sold
+            </button>
+        {% endif %}
         <a href="{{ path('app_package_delete', {
-            id: package.id
-        }) }}">Delete</a>
-        <a href="{{ path('app_package') }}">Back</a>
+            id: package.id }) }}" class="btn btn-danger rounded-pill px-4 shadow-sm ms-auto">Delete</a>
+        <a href="{{ path('app_package') }}" class="btn btn-outline-secondary rounded-pill px-4 shadow-sm">Back</a>
     </div>
 {% endblock %}

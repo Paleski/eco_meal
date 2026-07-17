@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Dto\PackageSearchFilter;
 use App\Entity\Business;
+use App\Entity\Order;
 use App\Entity\Package;
 use App\Form\PackageFiltersType;
 use App\Form\PackageFormType;
+use App\Repository\OrderRepository;
 use App\Repository\PackageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,10 +32,13 @@ final class PackageController extends AbstractController
     }
 
     #[Route('/package/{id}', name: 'app_package_view')]
-    public function view(Package $package): Response
+    public function view(Package $package, OrderRepository $orderRepository): Response
     {
+        $orderExists = $orderRepository->findOneBy(['package' => $package]);
+        $isAvailable = ($orderExists === null);
         return $this->render('package/view.html.twig', [
             'package' => $package,
+            'isAvailable' => $isAvailable,
         ]);
     }
     #[Route('/new/business/{id}/package', name: 'app_package_new_for_business', methods: ['GET', 'POST'])]
@@ -78,7 +83,7 @@ final class PackageController extends AbstractController
         ]);
     }
 
-    #[Route('/order/delete/{id}', name: 'app_package_delete', methods: ['GET'])]
+    #[Route('/package/delete/{id}', name: 'app_package_delete', methods: ['GET'])]
     public function delete(Request $request, Package $package, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($package);
@@ -86,4 +91,24 @@ final class PackageController extends AbstractController
 
         return $this->redirectToRoute('app_package');
     }
+
+    #[Route('/{id}/order', name: 'app_package_order', methods: ['POST'])]
+    public function order(Package $package, EntityManagerInterface $entityManager): Response
+    {
+        if (! $this->isGranted('ROLE_CONSUMER')) {
+            return $this->redirectToRoute('app_denied');
+        }
+
+        $order = new Order();
+        $order->setPackage($package);
+        $order->setConsumer($this->getUser()->getConsumer());
+
+        $entityManager->persist($order);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Order for package  ' . $package->getName() . ' has been placed.');
+
+        return $this->redirectToRoute('app_package');
+    }
 }
+
